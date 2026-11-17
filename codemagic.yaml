@@ -41,21 +41,18 @@ workflows:
       - name: Build release APK
         script: |
           set -e
-          PROJECT_DIR="$CM_SOURCE_DIR"
           if [ ! -f pubspec.yaml ] && [ -f ashik_hisab/pubspec.yaml ]; then
-            PROJECT_DIR="$CM_SOURCE_DIR/ashik_hisab"
             cd ashik_hisab
           fi
 
           flutter build apk --release
 
-          APK_PATH="$PROJECT_DIR/build/app/outputs/flutter-apk/app-release.apk"
-          ls -la "$APK_PATH"
+          ls -la build/app/outputs/flutter-apk/
 
           # Copy the APK to the repo root so Codemagic can always find it
-          cp "$APK_PATH" "$CM_SOURCE_DIR/Ashik-Hisab.apk"
-          ls -la "$CM_SOURCE_DIR"/*.apk
-          echo "=== APK READY: Ashik-Hisab.apk ==="
+          cp build/app/outputs/flutter-apk/app-release.apk ../Ashik-Hisab.apk
+          ls -la ../Ashik-Hisab.apk
+          echo "=== APK READY ==="
     artifacts:
       - Ashik-Hisab.apk
       - build/app/outputs/flutter-apk/*.apk
